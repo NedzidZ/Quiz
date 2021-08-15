@@ -12,6 +12,21 @@ const Quiz = () => {
   const [isLoading, setisLoading] = useState(false);
   let i = 0;
 
+  function shuffle(array) {
+    var currentIndex = array.length,
+      randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  }
+
   const AnswerHandler = () => {
     setisLoading(true);
     fetch("https://opentdb.com/api.php?amount=10")
@@ -23,25 +38,33 @@ const Quiz = () => {
         setisLoading(false);
         setStartGame(true);
         console.log("Success:", data);
-        setAnswers([
-          data.results[position].correct_answer,
-          ...data.results[position].incorrect_answers,
-        ]);
+        setAnswers(
+          shuffle([
+            data.results[position].correct_answer,
+            ...data.results[position].incorrect_answers,
+          ])
+        );
       });
   };
   const skipHandler = () => {
-    setAnswers([
-      questions[position + 1].correct_answer,
-      ...questions[position + 1].incorrect_answers,
-    ]);
+    if (position < 9)
+      setAnswers(
+        shuffle([
+          questions[position + 1].correct_answer,
+          ...questions[position + 1].incorrect_answers,
+        ])
+      );
+
     setPostion(position + 1);
   };
   const CheckAnswerHandler = (event) => {
-    setAnswers([
-      questions[position + 1].correct_answer,
-      ...questions[position + 1].incorrect_answers,
-    ]);
-
+    if (position < 9)
+      setAnswers(
+        shuffle([
+          questions[position + 1].correct_answer,
+          ...questions[position + 1].incorrect_answers,
+        ])
+      );
     if (event.target.value === questions[position].correct_answer) {
       setScore(score + 1);
       if (position < 9) setPostion(position + 1);
@@ -53,6 +76,9 @@ const Quiz = () => {
   };
   if (isLoading) {
     return <Loading />;
+  }
+  if (position == 10) {
+    return <h1>Your score is : {score} </h1>;
   }
   return (
     <div className={classes.quizdiv}>
@@ -67,7 +93,10 @@ const Quiz = () => {
         <div className={classes.answers}>
           <div className={classes.questiondiv}>
             {" "}
-            <h2 className={classes.question}>{questions[position].question}</h2>
+            <h2
+              className={classes.question}
+              dangerouslySetInnerHTML={{ __html: questions[position].question }}
+            />
           </div>
           {answers.map((answer) => (
             <Button
@@ -84,8 +113,8 @@ const Quiz = () => {
           </button>
         </div>
       )}
-      {position === 9 && <h1>Score : {score}</h1>}
     </div>
   );
 };
+
 export default Quiz;
