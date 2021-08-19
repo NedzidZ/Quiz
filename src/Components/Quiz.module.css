@@ -52,3 +52,44 @@
 .question {
   font-size: large;
 }
+.correct {
+  width: 45%;
+  height: 50px;
+  margin: 10px;
+  border-radius: 7px;
+  background-color: green;
+}
+.answerbtn:hover {
+  background-color: gray;
+}
+.incorrect {
+  width: 45%;
+  height: 50px;
+  margin: 10px;
+  border-radius: 7px;
+  background-color: red;
+}
+
+@media (max-width: 600px) {
+  .answerbtn {
+    width: 100%;
+  }
+  .correct {
+    width: 100%;
+    pointer-events: none;
+  }
+  .incorrect {
+    width: 100%;
+    pointer-events: none;
+  }
+  .answers h2 {
+    font-size: 15px;
+  }
+  .question {
+    width: 100%;
+    padding: 5%;
+  }
+  .answers {
+    width: 80%;
+  }
+}
