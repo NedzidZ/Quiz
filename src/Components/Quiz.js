@@ -12,6 +12,8 @@ const Quiz = () => {
   const [isLoading, setisLoading] = useState(false);
   const [isCorrect, setisCorrect] = useState(false);
   const [isIncorrect, setisIncorrect] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
   let i = 0;
 
   function shuffle(array) {
@@ -56,11 +58,28 @@ const Quiz = () => {
         console.log("Success:", data);
         setAnswers(
           shuffle([
-            data.results[position].correct_answer,
-            ...data.results[position].incorrect_answers,
+            data.results[0].correct_answer,
+            ...data.results[0].incorrect_answers,
           ])
         );
       });
+  };
+  const Reset = () => {
+    setQuestions([]);
+    setAnswers([]);
+    setisLoading(false);
+    setisCorrect(false);
+    setisIncorrect(false);
+    setClicked(false);
+  };
+  if (position === 10 && clicked) {
+    Reset();
+  }
+  const PlayAgainHandler = () => {
+    setScore(0);
+    setPosition(0);
+    setClicked(true);
+    AnswerHandler();
   };
 
   const skipHandler = () => {
@@ -71,10 +90,9 @@ const Quiz = () => {
           ...questions[position + 1].incorrect_answers,
         ])
       );
-
     setPosition(position + 1);
   };
-  
+
   const CheckAnswerHandler = (event) => {
     if (event.target.value === questions[position].correct_answer) {
       setScore(score + 1);
@@ -97,7 +115,14 @@ const Quiz = () => {
   }
 
   if (position == 10) {
-    return <h1>Your score is : {score} </h1>;
+    return (
+      <div>
+        <h1>Your score is : {score} </h1>
+        <button className={classes.startbtn} onClick={PlayAgainHandler}>
+          Play again
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -112,7 +137,6 @@ const Quiz = () => {
       {startGame && (
         <div className={classes.answers}>
           <div className={classes.questiondiv}>
-            {" "}
             <h2
               className={classes.question}
               dangerouslySetInnerHTML={{ __html: questions[position].question }}
