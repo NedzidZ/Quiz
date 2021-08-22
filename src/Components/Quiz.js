@@ -13,6 +13,7 @@ const Quiz = () => {
   const [isCorrect, setisCorrect] = useState(false);
   const [isIncorrect, setisIncorrect] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
 
   let i = 0;
 
@@ -34,6 +35,7 @@ const Quiz = () => {
     setPosition(position + 1);
     setisCorrect(false);
     setisIncorrect(false);
+    setDisableButton(true);
   };
 
   const ShuffleAnswers = () => {
@@ -106,6 +108,7 @@ const Quiz = () => {
       if (position < 10) {
         setTimeout(RaisePosition, 2000);
       }
+      setDisableButton(false);
     }
     if (position < 9) setTimeout(ShuffleAnswers, 2000);
   };
@@ -144,6 +147,7 @@ const Quiz = () => {
           </div>
           {answers.map((answer) => (
             <Button
+              disable={disableButton}
               className={
                 (isCorrect && classes.correct) ||
                 (isIncorrect && classes.incorrect) ||

@@ -58,6 +58,7 @@
   margin: 10px;
   border-radius: 7px;
   background-color: green;
+  pointer-events: none;
 }
 .answerbtn:hover {
   background-color: gray;
@@ -68,6 +69,7 @@
   margin: 10px;
   border-radius: 7px;
   background-color: red;
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {
