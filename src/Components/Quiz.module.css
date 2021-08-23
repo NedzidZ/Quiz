@@ -57,6 +57,7 @@
   height: 50px;
   margin: 10px;
   border-radius: 7px;
+  color: white;
   background-color: green;
   pointer-events: none;
 }
@@ -68,6 +69,7 @@
   height: 50px;
   margin: 10px;
   border-radius: 7px;
+  color: white;
   background-color: red;
   pointer-events: none;
 }

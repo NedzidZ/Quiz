@@ -14,8 +14,8 @@ const Quiz = () => {
   const [isIncorrect, setisIncorrect] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-
-  let i = 0;
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState("");
 
   function shuffle(array) {
     let currentIndex = array.length,
@@ -35,7 +35,7 @@ const Quiz = () => {
     setPosition(position + 1);
     setisCorrect(false);
     setisIncorrect(false);
-    setDisableButton(true);
+    setDisableButton(false);
   };
 
   const ShuffleAnswers = () => {
@@ -55,6 +55,7 @@ const Quiz = () => {
       })
       .then((data) => {
         setQuestions(data.results);
+        /*setCorrectAnswer(data.results[0].correct_answer);*/
         setisLoading(false);
         setStartGame(true);
         console.log("Success:", data);
@@ -96,6 +97,9 @@ const Quiz = () => {
   };
 
   const CheckAnswerHandler = (event) => {
+    setDisableButton(true);
+    setCorrectAnswer(questions[position].correct_answer);
+    setSelectedAnswer(event.target.value);
     if (event.target.value === questions[position].correct_answer) {
       setScore(score + 1);
       setisCorrect(true);
@@ -108,7 +112,6 @@ const Quiz = () => {
       if (position < 10) {
         setTimeout(RaisePosition, 2000);
       }
-      setDisableButton(false);
     }
     if (position < 9) setTimeout(ShuffleAnswers, 2000);
   };
@@ -145,13 +148,20 @@ const Quiz = () => {
               dangerouslySetInnerHTML={{ __html: questions[position].question }}
             />
           </div>
-          {answers.map((answer) => (
+          {answers.map((answer, i) => (
             <Button
-              disable={disableButton}
+              disabled={disableButton}
               className={
-                (isCorrect && classes.correct) ||
-                (isIncorrect && classes.incorrect) ||
-                (!isCorrect && classes.answerbtn)
+                (selectedAnswer === answer &&
+                  selectedAnswer === correctAnswer &&
+                  isCorrect &&
+                  classes.correct) ||
+                (selectedAnswer === answer &&
+                  selectedAnswer !== correctAnswer &&
+                  isIncorrect &&
+                  classes.incorrect) ||
+                (answer === correctAnswer && isIncorrect && classes.correct) ||
+                classes.answerbtn
               }
               key={i++}
               value={answer}
@@ -160,7 +170,11 @@ const Quiz = () => {
               {answer}
             </Button>
           ))}
-          <button className={classes.skipbtn} onClick={skipHandler}>
+          <button
+            disabled={disableButton}
+            className={classes.skipbtn}
+            onClick={skipHandler}
+          >
             Skip
           </button>
         </div>
