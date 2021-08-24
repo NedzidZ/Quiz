@@ -104,16 +104,16 @@ const Quiz = () => {
       setScore(score + 1);
       setisCorrect(true);
       if (position < 10) {
-        setTimeout(RaisePosition, 2000);
+        setTimeout(RaisePosition, 1000);
       }
     } else {
       setScore(score - 0.5);
       setisIncorrect(true);
       if (position < 10) {
-        setTimeout(RaisePosition, 2000);
+        setTimeout(RaisePosition, 1000);
       }
     }
-    if (position < 9) setTimeout(ShuffleAnswers, 2000);
+    if (position < 9) setTimeout(ShuffleAnswers, 1000);
   };
 
   if (isLoading) {
@@ -122,9 +122,9 @@ const Quiz = () => {
 
   if (position == 10) {
     return (
-      <div>
+      <div className={classes.scorediv}>
         <h1>Your score is : {score} </h1>
-        <button className={classes.startbtn} onClick={PlayAgainHandler}>
+        <button className={classes.playagainbtn} onClick={PlayAgainHandler}>
           Play again
         </button>
       </div>
