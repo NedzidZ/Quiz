@@ -1,0 +1,15 @@
+.select {
+  height: 30px;
+  width: 15%;
+  text-align: center;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .select {
+    height: 30px;
+    width: 40%;
+    text-align: center;
+    border-radius: 4px;
+  }
+}

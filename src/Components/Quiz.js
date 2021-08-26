@@ -1,7 +1,9 @@
 import classes from "./Quiz.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button.js";
 import Loading from "./Loading";
+import { Categories, NumberOfQuestions } from "./Endpoints/Endpoints";
+import Dropdown from "./Dropdown";
 
 const Quiz = () => {
   const [startGame, setStartGame] = useState(false);
@@ -16,6 +18,12 @@ const Quiz = () => {
   const [disableButton, setDisableButton] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [URL, setURL] = useState("https://opentdb.com/api.php?amount=10");
+  const [num, setNumber] = useState(10);
+  const [category, setCategory] = useState("");
+  useEffect(() => {
+    setURL("https://opentdb.com/api.php?amount=" + num + category);
+  }, [URL, num, category]);
 
   function shuffle(array) {
     let currentIndex = array.length,
@@ -49,13 +57,12 @@ const Quiz = () => {
 
   const AnswerHandler = () => {
     setisLoading(true);
-    fetch("https://opentdb.com/api.php?amount=10")
+    fetch(URL)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         setQuestions(data.results);
-        /*setCorrectAnswer(data.results[0].correct_answer);*/
         setisLoading(false);
         setStartGame(true);
         console.log("Success:", data);
@@ -75,7 +82,7 @@ const Quiz = () => {
     setisIncorrect(false);
     setClicked(false);
   };
-  if (position === 10 && clicked) {
+  if (position === num && clicked) {
     Reset();
   }
   const PlayAgainHandler = () => {
@@ -86,7 +93,7 @@ const Quiz = () => {
   };
 
   const skipHandler = () => {
-    if (position < 9)
+    if (position < num - 1)
       setAnswers(
         shuffle([
           questions[position + 1].correct_answer,
@@ -103,24 +110,36 @@ const Quiz = () => {
     if (event.target.value === questions[position].correct_answer) {
       setScore(score + 1);
       setisCorrect(true);
-      if (position < 10) {
+      if (position < num) {
         setTimeout(RaisePosition, 1000);
       }
     } else {
       setScore(score - 0.5);
       setisIncorrect(true);
-      if (position < 10) {
+      if (position < num) {
         setTimeout(RaisePosition, 1000);
       }
     }
-    if (position < 9) setTimeout(ShuffleAnswers, 1000);
+    if (position < num - 1) setTimeout(ShuffleAnswers, 1000);
+  };
+  const ChoiceHandler = (event) => {
+    if (event.target.id === "category") {
+      setCategory("&" + event.target.value);
+      console.log(category);
+      console.log(URL);
+    }
+    if (event.target.id === "numberofquestions") {
+      setNumber(event.target.value);
+      console.log(num);
+      console.log(URL);
+    }
   };
 
   if (isLoading) {
     return <Loading />;
   }
 
-  if (position == 10) {
+  if (position == num) {
     return (
       <div className={classes.scorediv}>
         <h1>Your score is : {score} </h1>
@@ -138,6 +157,18 @@ const Quiz = () => {
           <button className={classes.startbtn} onClick={AnswerHandler}>
             Start Game
           </button>
+          <label for="category" className={classes.categorylbl}>
+            Choose a category :
+          </label>
+          <Dropdown onChange={ChoiceHandler} id="category" pick={Categories} />
+          <label for="numberofquestions" className={classes.numberlbl}>
+            Number of questions :
+          </label>
+          <Dropdown
+            onChange={ChoiceHandler}
+            id="numberofquestions"
+            pick={NumberOfQuestions}
+          />
         </div>
       )}
       {startGame && (
