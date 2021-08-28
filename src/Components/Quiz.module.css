@@ -1,23 +1,22 @@
 .startdiv {
-  height: 100vw;
   width: 100vw;
-  margin: 0;
-  padding: 0;
+  height: 100vh;
   background-color: gray;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
 }
 .startbtn {
   width: 300px;
   height: 50px;
-  margin-top: 18%;
   margin-bottom: 20px;
   border-radius: 5px;
   border: black;
   background-color: darkgray;
   color: white;
   font-size: medium;
+  cursor: pointer;
 }
 .quizdiv {
   height: 100%;
@@ -40,6 +39,10 @@
   text-align: center;
   border-radius: 5px;
   border-color: white;
+}
+.skipbtn:hover {
+  background-color: #cfcfcf;
+  cursor: pointer;
 }
 .answerbtn {
   width: 45%;
@@ -65,7 +68,8 @@
   pointer-events: none;
 }
 .answerbtn:hover {
-  background-color: gray;
+  background-color: #cfcfcf;
+  cursor: pointer;
 }
 .incorrect {
   width: 45%;
@@ -112,6 +116,7 @@
 .numberlbl {
   font-size: 14px;
   color: white;
+  padding: 6px 0;
 }
 select {
   background: darkgray;
@@ -151,13 +156,13 @@ select {
     margin-bottom: 20px;
   }
   .startdiv {
-    margin: 0;
-    margin-top: 40%;
-    height: 30%;
-    padding-top: 10%;
-
+    width: 100vw;
+    height: 100vh;
+    background-color: gray;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .playagainbtn {
     width: 60%;

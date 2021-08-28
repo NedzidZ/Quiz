@@ -151,10 +151,10 @@ const Quiz = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading size="large" />;
   }
 
-  if (position == num) {
+  if (position === num) {
     return (
       <div className={classes.scorediv}>
         <h1>Your score is : {score} </h1>
@@ -172,26 +172,14 @@ const Quiz = () => {
           <button className={classes.startbtn} onClick={AnswerHandler}>
             Start Game
           </button>
-          <label for="category" className={classes.categorylbl}>
-            Choose a category :
-          </label>
+          <label className={classes.categorylbl}>Choose a category :</label>
           {categoryLoading ? (
-            <Loading className1="categoryloader" className2="categoryloader2" />
+            <Loading size="small" />
           ) : (
-            <Dropdown
-              onChange={ChoiceHandler}
-              id="category"
-              pick={categoryList}
-            />
+            <Dropdown onChange={ChoiceHandler} pick={categoryList} />
           )}
-          <label for="numberofquestions" className={classes.numberlbl}>
-            Number of questions :
-          </label>
-          <Dropdown
-            onChange={ChoiceHandler}
-            id="numberofquestions"
-            pick={NumberOfQuestions}
-          />
+          <label className={classes.numberlbl}>Number of questions :</label>
+          <Dropdown onChange={ChoiceHandler} pick={NumberOfQuestions} />
         </div>
       )}
       {startGame && (
@@ -202,7 +190,7 @@ const Quiz = () => {
               dangerouslySetInnerHTML={{ __html: questions[position].question }}
             />
           </div>
-          {answers.map((answer, i) => (
+          {answers.map((answer, index) => (
             <Button
               disabled={disableButton}
               className={
@@ -217,7 +205,7 @@ const Quiz = () => {
                 (answer === correctAnswer && isIncorrect && classes.correct) ||
                 classes.answerbtn
               }
-              key={i++}
+              key={index}
               value={answer}
               onClick={CheckAnswerHandler}
             >
