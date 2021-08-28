@@ -24,20 +24,18 @@ const Quiz = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [categoryLoading, setCategoryLoading] = useState(true);
 
-  const Start = () => {
-    useEffect(() => {
-      fetch("https://opentdb.com/api_category.php")
-        .then((response) => {
-          return response.json();
-        })
-        .then((data2) => {
-          setCategoryList(data2.trivia_categories);
-          console.log(data2.trivia_categories);
-          setCategoryLoading(false);
-        });
-    }, []);
-  };
-  setTimeout(Start(), 3000);
+  useEffect(() => {
+    fetch("https://opentdb.com/api_category.php")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data2) => {
+        setCategoryList(data2.trivia_categories);
+        console.log(data2.trivia_categories);
+        setCategoryLoading(false);
+      });
+  }, []);
+
   useEffect(() => {
     setURL("https://opentdb.com/api.php?amount=" + num + category);
   }, [URL, num, category]);
@@ -178,10 +176,7 @@ const Quiz = () => {
             Choose a category :
           </label>
           {categoryLoading ? (
-            <Loading
-              className={classes.category}
-              className2={classes.category2}
-            />
+            <Loading className1="categoryloader" className2="categoryloader2" />
           ) : (
             <Dropdown
               onChange={ChoiceHandler}

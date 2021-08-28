@@ -1,10 +1,21 @@
 import classes from "./Loading.module.css";
-import { useState } from "react";
 
 const Loading = (props) => {
   return (
-    <div className={(classes.loaderparent, props.className)}>
-      <div className={(classes.loader, props.className2)}></div>
+    <div
+      className={
+        props.className === "categoryloader"
+          ? classes.categoryloader
+          : classes.loaderparent
+      }
+    >
+      <div
+        className={
+          props.className2 === "categoryloader2"
+            ? classes.categoryloader2
+            : classes.loader
+        }
+      ></div>
     </div>
   );
 };
