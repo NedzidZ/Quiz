@@ -2,8 +2,26 @@ import classes from "./Quiz.module.css";
 import { useState, useEffect } from "react";
 import Button from "./Button.js";
 import Loading from "./Loading";
-import { NumberOfQuestions } from "./Endpoints/Endpoints";
 import Dropdown from "./Dropdown";
+
+const numberOfQuestions = [
+  {
+    id: "10",
+    name: "10",
+  },
+  {
+    id: "15",
+    name: "15",
+  },
+  {
+    id: "20",
+    name: "20",
+  },
+  {
+    id: "25",
+    name: "25",
+  },
+];
 
 const Quiz = () => {
   const [startGame, setStartGame] = useState(false);
@@ -26,9 +44,7 @@ const Quiz = () => {
 
   useEffect(() => {
     fetch("https://opentdb.com/api_category.php")
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data2) => {
         setCategoryList(data2.trivia_categories);
         console.log(data2.trivia_categories);
@@ -73,9 +89,7 @@ const Quiz = () => {
   const AnswerHandler = () => {
     setisLoading(true);
     fetch(URL)
-      .then((response) => {
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         setQuestions(data.results);
         setisLoading(false);
@@ -179,7 +193,7 @@ const Quiz = () => {
             <Dropdown onChange={ChoiceHandler} pick={categoryList} />
           )}
           <label className={classes.numberlbl}>Number of questions :</label>
-          <Dropdown onChange={ChoiceHandler} pick={NumberOfQuestions} />
+          <Dropdown onChange={ChoiceHandler} pick={numberOfQuestions} />
         </div>
       )}
       {startGame && (
