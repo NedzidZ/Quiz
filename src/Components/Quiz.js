@@ -2,7 +2,7 @@ import classes from "./Quiz.module.css";
 import { useState, useEffect } from "react";
 import Button from "./Button.js";
 import Loading from "./Loading";
-import { Categories, NumberOfQuestions } from "./Endpoints/Endpoints";
+import { NumberOfQuestions } from "./Endpoints/Endpoints";
 import Dropdown from "./Dropdown";
 
 const Quiz = () => {
@@ -21,6 +21,23 @@ const Quiz = () => {
   const [URL, setURL] = useState("https://opentdb.com/api.php?amount=10");
   const [num, setNumber] = useState(10);
   const [category, setCategory] = useState("");
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryLoading, setCategoryLoading] = useState(true);
+
+  const Start = () => {
+    useEffect(() => {
+      fetch("https://opentdb.com/api_category.php")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data2) => {
+          setCategoryList(data2.trivia_categories);
+          console.log(data2.trivia_categories);
+          setCategoryLoading(false);
+        });
+    }, []);
+  };
+  setTimeout(Start(), 3000);
   useEffect(() => {
     setURL("https://opentdb.com/api.php?amount=" + num + category);
   }, [URL, num, category]);
@@ -124,7 +141,7 @@ const Quiz = () => {
   };
   const ChoiceHandler = (event) => {
     if (event.target.id === "category") {
-      setCategory("&" + event.target.value);
+      setCategory("&category=" + event.target.value);
       console.log(category);
       console.log(URL);
     }
@@ -160,7 +177,18 @@ const Quiz = () => {
           <label for="category" className={classes.categorylbl}>
             Choose a category :
           </label>
-          <Dropdown onChange={ChoiceHandler} id="category" pick={Categories} />
+          {categoryLoading ? (
+            <Loading
+              className={classes.category}
+              className2={classes.category2}
+            />
+          ) : (
+            <Dropdown
+              onChange={ChoiceHandler}
+              id="category"
+              pick={categoryList}
+            />
+          )}
           <label for="numberofquestions" className={classes.numberlbl}>
             Number of questions :
           </label>

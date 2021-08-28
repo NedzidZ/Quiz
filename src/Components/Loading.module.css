@@ -14,7 +14,24 @@
   animation: spin 2s linear infinite;
   align-items: center;
 }
-
+.categoryloader {
+  border: gray;
+  width: 15%;
+  height: 30px;
+  border-radius: 4px;
+  text-align: center;
+}
+.categoryloader2 {
+  margin-left: 45%;
+  margin-top: 15%;
+  border: 7px solid #f3f3f3;
+  border-top: 7px solid gray;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  animation: spin 2s linear infinite;
+  align-items: center;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);

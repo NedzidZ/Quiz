@@ -111,6 +111,10 @@
 .categorylbl,
 .numberlbl {
   font-size: 14px;
+  color: white;
+}
+select {
+  background: darkgray;
 }
 
 @media (max-width: 600px) {
@@ -141,13 +145,17 @@
   .startbtn {
     width: 70%;
     margin: 0;
+    margin-left: 15%;
+    margin-right: 15%;
     padding: 0;
     margin-bottom: 20px;
   }
   .startdiv {
+    margin: 0;
     margin-top: 40%;
     height: 30%;
-    padding: 10%;
+    padding-top: 10%;
+
     display: flex;
     flex-direction: column;
   }
